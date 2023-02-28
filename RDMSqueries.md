@@ -96,49 +96,135 @@
 # WINDOW functions
 - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
 
-FULL OUTER JOIN - returns all rows from both tables, and matches rows from both tables when they are equal
-LEFT OUTER JOIN - returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
-RIGHT OUTER JOIN - returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
-CROSS JOIN - returns the Cartesian product of the two tables, that is, all possible combinations of rows between the two tables.
-SELF JOIN - joins a table with itself using an alias, usually to find related data within the same table.
-TRUNCATE - deletes all rows from a table without logging each individual deletion, making it faster than DELETE for large tables.
-COMMIT - saves all the changes made to the database in the current transaction.
-ROLLBACK - undoes all the changes made in the current transaction and restores the database to its previous state.
-SAVEPOINT - sets a savepoint within a transaction, allowing a partial rollback if needed.
-RELEASE SAVEPOINT - releases a savepoint previously defined in a transaction.
-LOCK - locks rows or tables to prevent other transactions from modifying the same data.
-UNLOCK - releases locks previously set in a transaction.
-INDEX - creates an index on one or more columns to improve query performance.
-VIEW - creates a virtual table based on the result set of a SELECT statement, which can be used like a regular table.
-CASCADE - specifies that changes made to a parent record should propagate to its child records in a related table.
-RESTRICT - specifies that changes made to a parent record should not propagate to its child records in a related table.
-OUTER REFERENCES - allows a subquery to reference a column from an outer query.
-MERGE - allows you to perform INSERT, UPDATE, and DELETE operations on a target table based on the results of a source table or subquery.
-WITH clause - allows you to define a subquery block that can be referenced multiple times within a larger query, improving code readability and performance.
-COALESCE - returns the first non-null value in a list of values.
-NVL - similar to COALESCE, but specifically used in Oracle databases.
-GREATEST - returns the greatest value in a list of values.
-LEAST - returns the smallest value in a list of values.
-ROW_NUMBER - assigns a unique number to each row within a result set, which can be used for pagination or filtering purposes.
-FETCH - used in conjunction with OFFSET to retrieve a specific number of rows from a query result starting at a specific position.
-TOP - used in Microsoft SQL Server to retrieve a specific number of rows from a query result.
-UNION ALL - combines the results of two or more SELECT statements into a single result set, including duplicate rows.
-INTERSECT - returns only the common rows between two or more SELECT statements.
-EXCEPT - returns only the rows that are unique to the first SELECT statement and not present in any of the subsequent SELECT statements.
-GROUP BY - groups the result set by one or more columns, allowing you to perform aggregate functions like SUM, AVG, MAX, MIN, and COUNT on each group.
-HAVING - used in conjunction with GROUP BY to filter the result set based on aggregate function values.
-CASE - performs conditional logic in a query and returns different values based on the condition.
-ROWS BETWEEN - allows you to specify a range of rows within a result set for a window function to operate on.
-RANK - assigns a rank to each row within a result set based on the specified criteria.
-DENSE_RANK - similar to RANK, but assigns a unique rank to each distinct value in the result set.
-NTILE - divides the result set into a specified number of buckets, assigning each row to a bucket based on its order in the result set.
-CROSS APPLY - applies a table-valued function to each row of a table and returns the combined result set.
-OUTER APPLY - similar to CROSS APPLY, but also returns rows from the left table that do not match any rows in the right table.
-OFFSET - used in conjunction with FETCH to specify the starting position for retrieving rows from a query result.
-TRIGGER - a special type of stored procedure that automatically executes in response to specific events, such as INSERT, UPDATE, or DELETE statements.
-CONSTRAINT - defines rules that must be followed for data to be entered into a table, such as a NOT NULL constraint or a FOREIGN KEY constraint.
-INDEXED VIEW - a view that has been materialized and stored in the database as an indexed table, improving query performance.
-TEMPORARY TABLE - a table that is created and used only for the duration of a single session or transaction.
+# FULL OUTER JOIN
+- returns all rows from both tables, and matches rows from both tables when they are equal
+
+# LEFT OUTER JOIN
+- returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
+
+# RIGHT OUTER JOIN
+- returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
+
+# CROSS JOIN 
+- returns the Cartesian product of the two tables, that is, all possible combinations of rows between the two tables.
+
+# SELF JOIN
+- joins a table with itself using an alias, usually to find related data within the same table.
+
+# TRUNCATE 
+- deletes all rows from a table without logging each individual deletion, making it faster than DELETE for large tables.
+
+# COMMIT
+- saves all the changes made to the database in the current transaction.
+
+# ROLLBACK
+- undoes all the changes made in the current transaction and restores the database to its previous state.
+
+# SAVEPOINT
+- sets a savepoint within a transaction, allowing a partial rollback if needed.
+
+# RELEASE SAVEPOINT
+- releases a savepoint previously defined in a transaction.
+
+# LOCK
+- locks rows or tables to prevent other transactions from modifying the same data.
+
+# UNLOCK
+- releases locks previously set in a transaction.
+
+# INDEX
+- creates an index on one or more columns to improve query performance.
+
+# VIEW
+- creates a virtual table based on the result set of a SELECT statement, which can be used like a regular table.
+
+# CASCADE
+- specifies that changes made to a parent record should propagate to its child records in a related table.
+
+# RESTRICT
+- specifies that changes made to a parent record should not propagate to its child records in a related table.
+
+# OUTER REFERENCES
+- allows a subquery to reference a column from an outer query.
+
+# MERGE
+- allows you to perform INSERT, UPDATE, and DELETE operations on a target table based on the results of a source table or subquery.
+
+# WITH clause
+- allows you to define a subquery block that can be referenced multiple times within a larger query, improving code readability and performance.
+
+# COALESCE
+- returns the first non-null value in a list of values.
+
+# NVL
+- similar to COALESCE, but specifically used in Oracle databases.
+
+# GREATEST
+- returns the greatest value in a list of values.
+
+# LEAST
+- returns the smallest value in a list of values.
+
+# ROW_NUMBER
+- assigns a unique number to each row within a result set, which can be used for pagination or filtering purposes.
+
+# FETCH
+- used in conjunction with OFFSET to retrieve a specific number of rows from a query result starting at a specific position.
+
+# TOP
+- used in Microsoft SQL Server to retrieve a specific number of rows from a query result.
+
+# UNION ALL
+- combines the results of two or more SELECT statements into a single result set, including duplicate rows.
+
+# INTERSECT
+- returns only the common rows between two or more SELECT statements.
+
+# EXCEPT
+- returns only the rows that are unique to the first SELECT statement and not present in any of the subsequent SELECT statements.
+
+# GROUP BY
+- groups the result set by one or more columns, allowing you to perform aggregate functions like SUM, AVG, MAX, MIN, and COUNT on each group.
+
+# HAVING
+- used in conjunction with GROUP BY to filter the result set based on aggregate function values.
+
+# CASE
+- performs conditional logic in a query and returns different values based on the condition.
+
+# ROWS BETWEEN
+- allows you to specify a range of rows within a result set for a window function to operate on.
+
+# RANK
+- assigns a rank to each row within a result set based on the specified criteria.
+
+# DENSE_RANK
+- similar to RANK, but assigns a unique rank to each distinct value in the result set.
+
+# NTILE
+- divides the result set into a specified number of buckets, assigning each row to a bucket based on its order in the result set.
+
+# CROSS APPLY
+- applies a table-valued function to each row of a table and returns the combined result set.
+
+# OUTER APPLY
+- similar to CROSS APPLY, but also returns rows from the left table that do not match any rows in the right table.
+
+# OFFSET
+- used in conjunction with FETCH to specify the starting position for retrieving rows from a query result.
+
+# TRIGGER
+- a special type of stored procedure that automatically executes in response to specific events, such as INSERT, UPDATE, or DELETE statements.
+
+# CONSTRAINT
+- defines rules that must be followed for data to be entered into a table, such as a NOT NULL constraint or a FOREIGN KEY constraint.
+
+# INDEXED VIEW
+- a view that has been materialized and stored in the database as an indexed table, improving query performance.
+
+# TEMPORARY TABLE
+- a table that is created and used only for the duration of a single session or transaction.
+
 CROSS DATABASE QUERY - allows you to query tables and views across multiple databases within the same RDBMS instance.
 JOINS WITH USING - allows you to specify the column(s) that the two tables have in common, rather than using the ON clause to join based on a condition.
 IN - used to specify a list of values to match against a column in a subquery or WHERE clause.
