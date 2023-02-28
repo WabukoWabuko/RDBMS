@@ -1,36 +1,101 @@
-SELECT - retrieves data from one or more tables
-INSERT - adds new data to a table
-UPDATE - modifies existing data in a table
-DELETE - removes data from a table
-JOIN - combines data from two or more tables
-GROUP BY - groups rows with the same values into summary rows
-ORDER BY - sorts the results of a query in ascending or descending order
-DISTINCT - returns unique values of a column
-WHERE - filters data based on a condition
-HAVING - filters data based on a condition, but after GROUP BY has been applied
-LIMIT - limits the number of rows returned in a query result
-OFFSET - skips a specified number of rows in a query result
-UNION - combines the results of two or more SELECT statements into a single result set
-INTERSECT - returns only the common rows between two SELECT statements
-EXCEPT - returns only the rows that are present in the first SELECT statement but not in the second SELECT statement.
-EXISTS - checks if a subquery returns any rows and returns a Boolean value
-NOT EXISTS - checks if a subquery returns no rows and returns a Boolean value
-COUNT - returns the number of rows or non-null values in a column
-AVG - calculates the average value of a column
-SUM - calculates the sum of values in a column
-MAX - returns the maximum value in a column
-MIN - returns the minimum value in a column
-IN - checks if a value matches any value in a list or subquery
-NOT IN - checks if a value does not match any value in a list or subquery
-BETWEEN - checks if a value is within a range of values
-NOT BETWEEN - checks if a value is not within a range of values
-LIKE - checks if a value matches a pattern using wildcard characters
-NOT LIKE - checks if a value does not match a pattern using wildcard characters
-CASE - performs conditional logic in a query
-COALESCE - returns the first non-null value in a list of values
-CAST - converts data from one data type to another
-DISTINCT ON - returns distinct rows based on a specific column
-WINDOW functions - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
+# SELECT
+- retrieves data from one or more tables
+
+# INSERT
+- adds new data to a table
+
+# UPDATE
+- modifies existing data in a table
+
+# DELETE
+- removes data from a table
+# JOIN
+- combines data from two or more tables
+
+# GROUP BY
+- groups rows with the same values into summary rows
+
+# ORDER BY
+- sorts the results of a query in ascending or descending order
+
+# DISTINCT
+- returns unique values of a column
+
+# WHERE
+- filters data based on a condition
+
+# HAVING
+- filters data based on a condition, but after GROUP BY has been applied
+
+# LIMIT
+- limits the number of rows returned in a query result
+
+# OFFSET
+- skips a specified number of rows in a query result
+
+# UNION
+- combines the results of two or more SELECT statements into a single result set
+
+# INTERSECT
+- returns only the common rows between two SELECT statements
+
+# EXCEPT
+- returns only the rows that are present in the first SELECT statement but not in the second SELECT statement.
+
+# EXISTS
+- checks if a subquery returns any rows and returns a Boolean value
+
+# NOT EXISTS
+- checks if a subquery returns no rows and returns a Boolean value
+
+# COUNT
+- returns the number of rows or non-null values in a column
+
+# AVG 
+- calculates the average value of a column
+
+# SUM
+- calculates the sum of values in a column
+
+# MAX
+- returns the maximum value in a column
+
+# MIN
+- returns the minimum value in a column
+
+# IN 
+- checks if a value matches any value in a list or subquery
+
+# NOT IN
+- checks if a value does not match any value in a list or subquery
+
+# BETWEEN
+- checks if a value is within a range of values
+
+# NOT BETWEEN
+- checks if a value is not within a range of values
+
+# LIKE
+- checks if a value matches a pattern using wildcard characters
+
+# NOT LIKE
+- checks if a value does not match a pattern using wildcard characters
+
+# CASE
+- performs conditional logic in a query
+
+# COALESCE
+- returns the first non-null value in a list of values
+
+# CAST
+- converts data from one data type to another
+
+# DISTINCT ON
+- returns distinct rows based on a specific column
+
+# WINDOW functions
+- performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
+
 FULL OUTER JOIN - returns all rows from both tables, and matches rows from both tables when they are equal
 LEFT OUTER JOIN - returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
 RIGHT OUTER JOIN - returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
