@@ -1,5 +1,5 @@
 # SELECT
-## - retrieves data from one or more tables
+# - retrieves data from one or more tables
 
 SELECT column1, column2, ... 
 FROM table_name
@@ -7,10 +7,19 @@ WHERE condition;
 
 
 # INSERT
-- adds new data to a table
+#- adds new data to a table
+
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
 
 # UPDATE
-- modifies existing data in a table
+# - modifies existing data in a table
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
 
 # DELETE
 - removes data from a table
