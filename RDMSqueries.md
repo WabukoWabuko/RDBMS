@@ -69,12 +69,51 @@ ON table1.column = table2.column;
 
   5. ## SELF JOIN
 - a join where a table is joined with itself.<br>
+- joins a table with itself using an alias, usually to find related data within the same table.
 - Suppose we have a table named <b>employees</b> with columns <b>employee_id, name,</b> and <b>manager_id</b>. The <b>manager_id</b> column refers to the <b>employee_id</b> of the manager of the employee.
 To retrieve the name of each <b>employee</b> and their manager's name, we can use a <b>self join</b> on the <b>employees</b> table:
 ```sql
 SELECT e.name as employee_name, m.name as manager_name
 FROM employees e
 JOIN employees m ON e.manager_id = m.employee_id;
+```
+
+ 6. ## FULL OUTER JOIN
+- returns all rows from both tables, and matches rows from both tables when they are equal<br>
+- Combines both Left Outer Join and Right Outer Join
+```sql
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.column = table2.column
+UNION
+SELECT *
+FROM table1
+RIGHT JOIN table2 ON table1.column = table2.column
+WHERE table1.column IS NULL;
+```
+
+ 7. ## LEFT OUTER JOIN
+- returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
+```sql
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.column = table2.column;
+```
+
+ 8. ## RIGHT OUTER JOIN
+- returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
+```sql
+SELECT *
+FROM table1
+RIGHT JOIN table2 ON table1.column = table2.column;
+```
+
+ 9. ## CROSS JOIN 
+- returns the Cartesian product of the two tables, that is, all possible combinations of rows between the two tables.
+```sql
+SELECT *
+FROM table1
+CROSS JOIN table2;
 ```
 
 # GROUP BY
@@ -84,7 +123,6 @@ SELECT column1, SUM(column2), AVG(column3)
 FROM table_name
 GROUP BY column1;
 ```
-
 
 # ORDER BY
 - sorts the results of a query in ascending or descending order
@@ -166,21 +204,6 @@ GROUP BY column1;
 
 # WINDOW functions
 - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
-
-# FULL OUTER JOIN
-- returns all rows from both tables, and matches rows from both tables when they are equal
-
-# LEFT OUTER JOIN
-- returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
-
-# RIGHT OUTER JOIN
-- returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
-
-# CROSS JOIN 
-- returns the Cartesian product of the two tables, that is, all possible combinations of rows between the two tables.
-
-# SELF JOIN
-- joins a table with itself using an alias, usually to find related data within the same table.
 
 # TRUNCATE 
 - deletes all rows from a table without logging each individual deletion, making it faster than DELETE for large tables.
