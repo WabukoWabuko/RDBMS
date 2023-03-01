@@ -1,34 +1,90 @@
-
 # SELECT
-# - retrieves data from one or more tables
-
+- retrieves data from one or more tables
+```sql
 SELECT column1, column2, ... 
 FROM table_name
 WHERE condition;
-
+```
 
 # INSERT
-#- adds new data to a table
-
+- adds new data to a table
+```sql
 INSERT INTO table_name (column1, column2, column3, ...)
 VALUES (value1, value2, value3, ...);
-
+```
 
 # UPDATE
-# - modifies existing data in a table
-
+- modifies existing data in a table
+```sql
 UPDATE table_name
 SET column1 = value1, column2 = value2, ...
 WHERE condition;
-
+ ```
 
 # DELETE
 - removes data from a table
+```sql
+DELETE FROM table_name
+WHERE condition;
+```
+
 # JOIN
 - combines data from two or more tables
 
+  1. ## INNER JOIN
+- returns only the rows from both tables that match the specified join condition.
+```sql
+SELECT column1, column2, ...
+FROM table1
+INNER JOIN table2
+ON table1.column = table2.column;
+```
+
+  2. ## LEFT JOIN
+- returns all the rows from the left table and the matching rows from the right table, or NULL if there is no match.
+```sql
+SELECT column1, column2, ...
+FROM table1
+LEFT JOIN table2
+ON table1.column = table2.column;
+```
+
+  3. ## RIGHT JOIN
+- returns all the rows from the right table and the matching rows from the left table, or NULL if there is no match.
+```sql
+SELECT column1, column2, ...
+FROM table1
+RIGHT JOIN table2
+ON table1.column = table2.column;
+```
+
+  4. ## FULL OUTER JOIN
+- returns all the rows from both tables, along with NULL values for any rows that do not have a match in the other table.
+```sql
+SELECT column1, column2, ...
+FROM table1
+FULL OUTER JOIN table2
+ON table1.column = table2.column;
+```
+
+  5. ## SELF JOIN
+- a join where a table is joined with itself.<br>
+- Suppose we have a table named <b>employees</b> with columns <b>employee_id, name,</b> and <b>manager_id</b>. The <b>manager_id</b> column refers to the <b>employee_id</b> of the manager of the employee.
+To retrieve the name of each <b>employee</b> and their manager's name, we can use a <b>self join</b> on the <b>employees</b> table:
+```sql
+SELECT e.name as employee_name, m.name as manager_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id;
+```
+
 # GROUP BY
 - groups rows with the same values into summary rows
+```sql
+SELECT column1, SUM(column2), AVG(column3)
+FROM table_name
+GROUP BY column1;
+```
+
 
 # ORDER BY
 - sorts the results of a query in ascending or descending order
@@ -447,18 +503,3 @@ WHERE condition;
 # NONCLUSTERED INDEX
 - an index that does not determine the physical order of the data in a table, but instead provides a separate data structure for faster lookup of values in the 
 specified columns.
-
-# INNER JOIN
-- returns only the rows from both tables that match the specified join condition.
-
-# LEFT JOIN
-- returns all the rows from the left table and the matching rows from the right table, or NULL if there is no match.
-
-# RIGHT JOIN
-- returns all the rows from the right table and the matching rows from the left table, or NULL if there is no match.
-
-# FULL OUTER JOIN
-- returns all the rows from both tables, along with NULL values for any rows that do not have a match in the other table.
-
-# SELF JOIN
-- a join where a table is joined with itself.
