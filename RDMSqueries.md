@@ -257,42 +257,111 @@ FROM table1;
 
 # MAX
 - returns the maximum value in a column
+```sql
+SELECT MAX(column1)
+FROM table1;
+```
 
 # MIN
 - returns the minimum value in a column
+```sql
+SELECT MIN(column1)
+FROM table1;
+```
 
 # IN 
 - checks if a value matches any value in a list or subquery
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 IN ('value1', 'value2', 'value3');
+```
 
 # NOT IN
 - checks if a value does not match any value in a list or subquery
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 NOT IN ('value1', 'value2', 'value3');
+```
 
 # BETWEEN
 - checks if a value is within a range of values
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 BETWEEN 10 AND 20;
+```
 
 # NOT BETWEEN
 - checks if a value is not within a range of values
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 NOT BETWEEN 10 AND 20;
+```
 
 # LIKE
 - checks if a value matches a pattern using wildcard characters
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 LIKE 'a%';
+```
 
 # NOT LIKE
 - checks if a value does not match a pattern using wildcard characters
+```sql
+SELECT column1, column2
+FROM table1
+WHERE column1 NOT LIKE 'a%';
+```
 
 # CASE
 - performs conditional logic in a query
-
-# COALESCE
-- returns the first non-null value in a list of values
+```sql
+SELECT column1, column2,
+CASE
+  WHEN column1 < 10 THEN 'Less than 10'
+  WHEN column1 >= 10 AND column1 < 20 THEN 'Between 10 and 20'
+  ELSE 'Greater than or equal to 20'
+END AS range
+FROM table1;
+```
 
 # CAST
 - converts data from one data type to another
+```sql
+SELECT column1, CAST(column2 AS CHAR) AS column2_char
+FROM table1;
+```
 
 # DISTINCT ON
-- returns distinct rows based on a specific column
+- returns distinct rows based on a specific column.<br>
+- Distinct keyword is used in elimination of duplicate rows from a result set.<br>
+- Instead <b>GROUP BY</b> clause is used.
+```sql
+SELECT customer_id, MAX(order_date) AS latest_order_date
+FROM orders
+GROUP BY customer_id;
+```
 
 # WINDOW functions
 - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
+
+ 1. ## ROW NUMBER.<br>
+ assigns a unique sequential number to each row in the result set.
+```sql
+SELECT ROW_NUMBER() OVER() AS row_num, employee_name, salary
+FROM employee;
+```
+
+ 2. ## RANK.<br>
+ returns the rank of each row within the result set based on a specified column or expression.
+ ```sql
+ SELECT employee_name, salary, RANK() OVER(ORDER BY salary DESC) AS rank
+FROM employee;
+```
 
 # TRUNCATE 
 - deletes all rows from a table without logging each individual deletion, making it faster than DELETE for large tables.
