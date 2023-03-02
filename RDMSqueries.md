@@ -241,34 +241,6 @@ FROM table1
 WHERE column1 = 'value';
 ```
 
-# AVG 
-- calculates the average value of a column
-```sql
-SELECT AVG(column1)
-FROM table1;
-```
-
-# SUM
-- calculates the sum of values in a column
-```sql
-SELECT SUM(column1)
-FROM table1;
-```
-
-# MAX
-- returns the maximum value in a column
-```sql
-SELECT MAX(column1)
-FROM table1;
-```
-
-# MIN
-- returns the minimum value in a column
-```sql
-SELECT MIN(column1)
-FROM table1;
-```
-
 # IN 
 - checks if a value matches any value in a list or subquery
 ```sql
@@ -349,18 +321,74 @@ GROUP BY customer_id;
 # WINDOW functions
 - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
 
- 1. ## ROW NUMBER.<br>
- assigns a unique sequential number to each row in the result set.
+ 1. ## ROW NUMBER().<br>
+- assigns a unique sequential number to each row in the result set.
 ```sql
 SELECT ROW_NUMBER() OVER() AS row_num, employee_name, salary
 FROM employee;
 ```
 
- 2. ## RANK.<br>
- returns the rank of each row within the result set based on a specified column or expression.
+ 2. ## RANK().<br>
+- returns the rank of each row within the result set based on a specified column or expression.
  ```sql
  SELECT employee_name, salary, RANK() OVER(ORDER BY salary DESC) AS rank
 FROM employee;
+```
+ 
+ 3. ## DENSE RANK().<br>
+- similar to RANK(), but assigns the same rank to rows with equal values
+ ```sql
+ SELECT employee_name, salary, DENSE_RANK() OVER(ORDER BY salary DESC) AS dense_rank
+FROM employee;
+```
+ 
+ 4. ## NTILE().<br>
+- divides the result set into a specified number of groups (or buckets) and assigns a bucket number to each row.
+ ```sql
+ SELECT employee_name, salary, NTILE(4) OVER(ORDER BY salary DESC) AS quartile
+FROM employee;
+```
+
+ 5. ## LAG().<br>
+- retrieves the value of a specified column from the previous row within a result set, based on a specified ordering.
+ ```sql
+ SELECT employee_name, salary, LAG(salary, 1) OVER(ORDER BY salary DESC) AS prev_salary
+FROM employee;
+```
+
+ 6. ## LEAD().<br>
+- retrieves the value of a specified column from the next row within a result set, based on a specified ordering.
+ ```sql
+ SELECT employee_name, salary, LEAD(salary, 1) OVER(ORDER BY salary DESC) AS next_salary
+FROM employee;
+```
+
+ 7. ## AVG 
+- calculates the average value of a column
+```sql
+SELECT AVG(column1)
+FROM table1;
+```
+
+ 8. ## SUM
+- calculates the sum of values in a column
+```sql
+SELECT SUM(column1)
+FROM table1;
+```
+
+ 9. ## MAX
+- returns the maximum value in a column
+```sql
+SELECT MAX(column1)
+FROM table1;
+```
+
+ 10. ## MIN
+- returns the minimum value in a column
+```sql
+SELECT MIN(column1)
+FROM table1;
 ```
 
 # TRUNCATE 
