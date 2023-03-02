@@ -126,45 +126,134 @@ GROUP BY column1;
 
 # ORDER BY
 - sorts the results of a query in ascending or descending order
+```sql
+SELECT column1, column2, column3
+FROM table_name
+ORDER BY column1 ASC, column2 DESC;
+```
 
 # DISTINCT
 - returns unique values of a column
+```sql
+SELECT DISTINCT column_name
+FROM table_name;
+```
 
 # WHERE
 - filters data based on a condition
+```sql
+SELECT column1, column2, column3
+FROM table_name
+WHERE column1 = 'value';
+```
 
 # HAVING
 - filters data based on a condition, but after GROUP BY has been applied
+```sql
+SELECT column1, SUM(column2) AS total
+FROM table_name
+GROUP BY column1
+HAVING total > 100;
+```
 
 # LIMIT
 - limits the number of rows returned in a query result
+```sql
+SELECT column1, column2, column3
+FROM table_name
+ORDER BY column1 DESC
+LIMIT 10;
+```
 
 # OFFSET
 - skips a specified number of rows in a query result
+```sql
+SELECT column1, column2, column3
+FROM table_name
+ORDER BY column1 DESC
+LIMIT 10 OFFSET 5;
+```
 
 # UNION
 - combines the results of two or more SELECT statements into a single result set
+```sql
+SELECT column1, column2, column3
+FROM table1
+UNION
+SELECT column1, column2, column3
+FROM table2;
+```
 
 # INTERSECT
-- returns only the common rows between two SELECT statements
+- returns only the common rows between two SELECT statements.<br>
+- Not supported by MySQl but can be simulated by the combinational use of <b>INNER JOIN</b> and <b>DISTINCT</b> commands
+```sql
+SELECT column1, column2, column3
+FROM table1
+INNER JOIN table2 ON table1.column1 = table2.column1
+INNER JOIN table3 ON table1.column1 = table3.column1
+WHERE table1.column2 = 'value1'
+AND table2.column3 = 'value2'
+AND table3.column4 = 'value3'
+```
 
 # EXCEPT
-- returns only the rows that are present in the first SELECT statement but not in the second SELECT statement.
+- returns only the rows that are present in the first SELECT statement but not in the second SELECT statement.<br>
+- Not supported by MySQL but can be simulated by the use of <b>NOT IN</b> and <b>SELECT</b> commands
+```sql
+SELECT column1, column2, column3
+FROM table1
+WHERE column1 NOT IN (
+    SELECT column1
+    FROM table2
+)
+```
 
 # EXISTS
 - checks if a subquery returns any rows and returns a Boolean value
+```sql
+SELECT *
+FROM table1
+WHERE EXISTS (
+    SELECT *
+    FROM table2
+    WHERE table2.column1 = table1.column1
+);
+```
 
 # NOT EXISTS
 - checks if a subquery returns no rows and returns a Boolean value
+```sql
+SELECT *
+FROM table1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM table2
+    WHERE table2.column1 = table1.column1
+);
+```
 
 # COUNT
 - returns the number of rows or non-null values in a column
+```sql
+SELECT COUNT(*)
+FROM table1
+WHERE column1 = 'value';
+```
 
 # AVG 
 - calculates the average value of a column
+```sql
+SELECT AVG(column1)
+FROM table1;
+```
 
 # SUM
 - calculates the sum of values in a column
+```sql
+SELECT SUM(column1)
+FROM table1;
+```
 
 # MAX
 - returns the maximum value in a column
