@@ -321,70 +321,70 @@ GROUP BY customer_id;
 # WINDOW functions
 - performs calculations on a subset of rows (window) in a result set, such as RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD, and so on.
 
- 1. ## ROW NUMBER().<br>
+ 1. ## <i>ROW NUMBER()</i>.<br>
 - assigns a unique sequential number to each row in the result set.
 ```sql
 SELECT ROW_NUMBER() OVER() AS row_num, employee_name, salary
 FROM employee;
 ```
 
- 2. ## RANK().<br>
+ 2. ## <i>RANK()</i>.<br>
 - returns the rank of each row within the result set based on a specified column or expression.
  ```sql
  SELECT employee_name, salary, RANK() OVER(ORDER BY salary DESC) AS rank
 FROM employee;
 ```
  
- 3. ## DENSE RANK().<br>
+ 3. ## <i>DENSE RANK()</i>.<br>
 - similar to RANK(), but assigns the same rank to rows with equal values
  ```sql
  SELECT employee_name, salary, DENSE_RANK() OVER(ORDER BY salary DESC) AS dense_rank
 FROM employee;
 ```
  
- 4. ## NTILE().<br>
+ 4. ## <i>NTILE()</i>.<br>
 - divides the result set into a specified number of groups (or buckets) and assigns a bucket number to each row.
  ```sql
  SELECT employee_name, salary, NTILE(4) OVER(ORDER BY salary DESC) AS quartile
 FROM employee;
 ```
 
- 5. ## LAG().<br>
+ 5. ## <i>LAG()</i>.<br>
 - retrieves the value of a specified column from the previous row within a result set, based on a specified ordering.
  ```sql
  SELECT employee_name, salary, LAG(salary, 1) OVER(ORDER BY salary DESC) AS prev_salary
 FROM employee;
 ```
 
- 6. ## LEAD().<br>
+ 6. ## <i>LEAD()</i>.<br>
 - retrieves the value of a specified column from the next row within a result set, based on a specified ordering.
  ```sql
  SELECT employee_name, salary, LEAD(salary, 1) OVER(ORDER BY salary DESC) AS next_salary
 FROM employee;
 ```
 
- 7. ## AVG 
+ 7. ## <i>AVG</i> 
 - calculates the average value of a column
 ```sql
 SELECT AVG(column1)
 FROM table1;
 ```
 
- 8. ## SUM
+ 8. ## <i>SUM</i>
 - calculates the sum of values in a column
 ```sql
 SELECT SUM(column1)
 FROM table1;
 ```
 
- 9. ## MAX
+ 9. ## <i>MAX</i>
 - returns the maximum value in a column
 ```sql
 SELECT MAX(column1)
 FROM table1;
 ```
 
- 10. ## MIN
+ 10. ## <i>MIN</i>
 - returns the minimum value in a column
 ```sql
 SELECT MIN(column1)
@@ -393,96 +393,229 @@ FROM table1;
 
 # TRUNCATE 
 - deletes all rows from a table without logging each individual deletion, making it faster than DELETE for large tables.
+```sql
+TRUNCATE TABLE table_name;
+```
 
 # COMMIT
 - saves all the changes made to the database in the current transaction.
+```sql
+COMMIT;
+```
 
 # ROLLBACK
 - undoes all the changes made in the current transaction and restores the database to its previous state.
+```sql
+ROLLBACK;
+ROLLBACK TO savepoint_name;
+```
 
 # SAVEPOINT
 - sets a savepoint within a transaction, allowing a partial rollback if needed.
+```sql
+SAVEPOINT savepoint_name;
+```
 
 # RELEASE SAVEPOINT
 - releases a savepoint previously defined in a transaction.
+```sql
+RELEASE SAVEPOINT savepoint_name;
+```
 
 # LOCK
-- locks rows or tables to prevent other transactions from modifying the same data.
+- locks rows or tables to prevent other transactions from modifying the same data.<br>
+- READ: This lock type is used to prevent other sessions from modifying the locked table while the current session is reading from it. Other sessions can still read from the table.
+- WRITE: This lock type is used to prevent all other sessions from reading from or modifying the locked table while the current session is performing some operation on it.
+```sql
+LOCK TABLES table_name [AS alias_name] lock_type [, table_name [AS alias_name] lock_type] ...
+
+
+LOCK TABLES
+    table_name [AS alias] lock_type,
+    ...
+```
 
 # UNLOCK
 - releases locks previously set in a transaction.
+```sql
+UNLOCK TABLES;
+```
 
 # INDEX
 - creates an index on one or more columns to improve query performance.
+```sql
+CREATE [UNIQUE] INDEX index_name
+ON table_name (column1, column2, ...);
+```
 
 # VIEW
 - creates a virtual table based on the result set of a SELECT statement, which can be used like a regular table.
+```sql
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table1
+WHERE condition;
+```
 
 # CASCADE
 - specifies that changes made to a parent record should propagate to its child records in a related table.
+```sql
+FOREIGN KEY (column_name) REFERENCES table_name(referenced_column_name)
+ON UPDATE CASCADE
+ON DELETE CASCADE
+```
 
 # RESTRICT
 - specifies that changes made to a parent record should not propagate to its child records in a related table.
+```sql
+FOREIGN KEY (column_name) REFERENCES table_name(referenced_column_name)
+ON UPDATE RESTRICT
+ON DELETE RESTRICT
+```
+
+# SET NULL
+- When a row in the referenced table is updated or deleted, the corresponding rows in the referencing table will have the foreign key columns set to NULL
+```sql
+FOREIGN KEY (column_name) REFERENCES table_name(referenced_column_name)
+ON UPDATE SET NULL
+ON DELETE SET NULL
+```
+
+# NO ACTION
+- This is the default behavior. When a row in the referenced table is updated or deleted, no action is taken on the referencing table.
+```sql
+FOREIGN KEY (column_name) REFERENCES table_name(referenced_column_name)
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
+```
 
 # OUTER REFERENCES
 - allows a subquery to reference a column from an outer query.
+```sql
+SELECT customer_name
+FROM customers
+WHERE EXISTS (
+  SELECT *
+  FROM orders
+  WHERE customers.customer_id = orders.customer_id
+  AND order_date = '2022-02-28'
+);
+```
 
 # MERGE
 - allows you to perform INSERT, UPDATE, and DELETE operations on a target table based on the results of a source table or subquery.
+```sql
+MERGE INTO target_table USING source_table ON condition
+WHEN MATCHED THEN
+  UPDATE SET column1 = value1, column2 = value2, ...
+WHEN NOT MATCHED THEN
+  INSERT (column1, column2, ...) VALUES (value1, value2, ...)
+```
 
 # WITH clause
 - allows you to define a subquery block that can be referenced multiple times within a larger query, improving code readability and performance.
+```sql
+WITH cte_name (column1, column2, ...) AS (
+  SELECT column1, column2, ...
+  FROM source_table
+  WHERE condition
+)
+SELECT column1, column2, ...
+FROM cte_name
+WHERE condition
+```
 
 # COALESCE
 - returns the first non-null value in a list of values.
+```sql
+SELECT COALESCE(NULL, NULL, 'hello', 'world');
+```
 
 # NVL
 - similar to COALESCE, but specifically used in Oracle databases.
+```sql
+SELECT NVL(NULL, 'hello');
+```
 
 # GREATEST
 - returns the greatest value in a list of values.
+```sql
+SELECT GREATEST(10, 20, 30, 40);
+
+
+SELECT GREATEST(col1, col2, col3) FROM my_table;
+SELECT LEAST(col1, col2, col3) FROM my_table;
+```
 
 # LEAST
 - returns the smallest value in a list of values.
+```sql
+SELECT LEAST(10, 20, 30, 40);
+
+
+SELECT GREATEST(col1, col2, col3) FROM my_table;
+SELECT LEAST(col1, col2, col3) FROM my_table;
+```
 
 # ROW_NUMBER
 - assigns a unique number to each row within a result set, which can be used for pagination or filtering purposes.
+```sql
+SELECT ROW_NUMBER() OVER (ORDER BY column1) as row_num, column1, column2
+FROM table_name;
+```
 
 # FETCH
 - used in conjunction with OFFSET to retrieve a specific number of rows from a query result starting at a specific position.
+```sql
+SELECT column1, column2
+FROM table_name
+ORDER BY column1
+OFFSET 10 ROWS
+FETCH NEXT 20 ROWS ONLY;
+```
 
 # TOP
 - used in Microsoft SQL Server to retrieve a specific number of rows from a query result.
+```sql
+SELECT TOP n column1, column2, ...
+FROM table_name;
+```
 
 # UNION ALL
 - combines the results of two or more SELECT statements into a single result set, including duplicate rows.
+```sql
+SELECT column1, column2, ...
+FROM table1
+UNION ALL
+SELECT column1, column2, ...
+FROM table2;
+```
 
 # INTERSECT
 - returns only the common rows between two or more SELECT statements.
+```sql
+SELECT column1, column2, ...
+FROM table1
+INTERSECT
+SELECT column1, column2, ...
+FROM table2;
+```
 
 # EXCEPT
 - returns only the rows that are unique to the first SELECT statement and not present in any of the subsequent SELECT statements.
-
-# GROUP BY
-- groups the result set by one or more columns, allowing you to perform aggregate functions like SUM, AVG, MAX, MIN, and COUNT on each group.
-
-# HAVING
-- used in conjunction with GROUP BY to filter the result set based on aggregate function values.
+```sql
+SELECT column1, column2, ...
+FROM table1
+EXCEPT
+SELECT column1, column2, ...
+FROM table2;
+```
 
 # CASE
 - performs conditional logic in a query and returns different values based on the condition.
 
 # ROWS BETWEEN
 - allows you to specify a range of rows within a result set for a window function to operate on.
-
-# RANK
-- assigns a rank to each row within a result set based on the specified criteria.
-
-# DENSE_RANK
-- similar to RANK, but assigns a unique rank to each distinct value in the result set.
-
-# NTILE
-- divides the result set into a specified number of buckets, assigning each row to a bucket based on its order in the result set.
 
 # CROSS APPLY
 - applies a table-valued function to each row of a table and returns the combined result set.
@@ -685,8 +818,6 @@ FROM table1;
 # CORRELATED SUBQUERY
 - a subquery that references a column from the outer query.
 
-# HAVING
-- used to filter the results of a query based on a specified condition.
 
 # ROWLOCK
 - used to lock a single row in a table, to prevent concurrent access by multiple transactions.
@@ -710,5 +841,4 @@ FROM table1;
 - an index that determines the physical order of the data in a table, based on the values in the specified columns.
 
 # NONCLUSTERED INDEX
-- an index that does not determine the physical order of the data in a table, but instead provides a separate data structure for faster lookup of values in the 
-specified columns.
+- an index that does not determine the physical order of the data in a table, but instead provides a separate data structure for faster lookup of values in the specified columns.
