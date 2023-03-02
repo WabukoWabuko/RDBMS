@@ -728,15 +728,6 @@ FROM table2;
 # CONCAT_WS
 - concatenates two or more strings into a single string using a specified separator, and automatically excludes null values.
 
-# LEAD
-- returns the value of a specified column from the next row in the result set.
-
-# LAG
-- returns the value of a specified column from the previous row in the result set.
-
-# COALESCE
-- returns the first non-null value in a list of expressions.
-
 # DATEADD
 - adds a specified interval to a date or time value.
 
@@ -755,17 +746,12 @@ FROM table2;
 # SYSDATETIME
 - returns the current date and time from the system clock, with high precision.
 
-# CAST
-- converts a value from one data type to another.
 
 # CONVERT
 - converts a value from one data type to another, and allows you to specify a format.
 
 # TOP
 - used to limit the number of rows returned by a query to a specified number.
-
-# TRUNCATE
-- removes all rows from a table without logging each individual row.
 
 # REPLACE
 - replaces all occurrences of a specified substring with another substring in a string.
@@ -818,15 +804,11 @@ FROM table2;
 # CORRELATED SUBQUERY
 - a subquery that references a column from the outer query.
 
-
 # ROWLOCK
 - used to lock a single row in a table, to prevent concurrent access by multiple transactions.
 
 # TABLOCK
 - used to lock an entire table, to prevent concurrent access by multiple transactions.
-
-# UPDATE
-- used to update one or more rows in a table, based on a specified condition.
 
 # DELETE
 - used to delete one or more rows in a table, based on a specified condition.
