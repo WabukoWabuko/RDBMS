@@ -953,27 +953,70 @@ SELECT SYSDATETIME() AS CurrentDateTime;
 
 # CONVERT
 - converts a value from one data type to another, and allows you to specify a format.
+```sql
+CONVERT ( data_type [ ( length ) ], expression [ , style ] )
+
+
+SELECT CONVERT(date, '2023-02-28')
+```
 
 # TOP
 - used to limit the number of rows returned by a query to a specified number.
+```sql
+SELECT TOP (expression) select_list FROM table_name WHERE condition;
+
+
+SELECT TOP 10 * FROM employees;
+```
 
 # REPLACE
 - replaces all occurrences of a specified substring with another substring in a string.
+```sql
+REPLACE ( string_expression , string_pattern , string_replacement )
+```
 
 # STUFF
 - replaces a specified length of characters in a string with another string.
+```sql
+STUFF ( string_expression , start , length , string_insert )
+```
 
 # FORMAT
 - formats a value as a string using a specified format.
+```sql
+FORMAT(value, format)
+
+
+SELECT FORMAT(GETDATE(), 'yyyy-MM-dd')
+```
 
 # QUOTENAME
 - adds square brackets around a string to make it a valid identifier in SQL.
+```sql
+QUOTENAME(string[, quote_character])
+
+
+SELECT QUOTENAME('my column')
+```
 
 # TRY_CONVERT
 - converts a value from one data type to another, and returns NULL if the conversion fails.
+```sql
+TRY_CONVERT ( data_type [ ( length ) ], expression [, style ] )
+
+
+SELECT TRY_CONVERT(INT, '123') AS ConvertedValue;
+```
 
 # TRY_PARSE
 - converts a string to a specified data type, and returns NULL if the conversion fails.
+```sql
+TRY_PARSE ( string_value AS data_type [ USING culture ] )
+
+
+
+SELECT TRY_PARSE('2022-03-01' AS DATE USING 'en-US') AS ParsedDate;
+```
 
 # GROUPING SETS
 - used to group data by multiple combinations of columns in a single query.
@@ -996,21 +1039,54 @@ SELECT SYSDATETIME() AS CurrentDateTime;
 
 # ROWLOCK
 - used to lock a single row in a table, to prevent concurrent access by multiple transactions.
+```sql
+SELECT *
+FROM myTable WITH (ROWLOCK) -- will lock only the rows returned by the query
+WHERE id = 1;
+```
 
 # TABLOCK
 - used to lock an entire table, to prevent concurrent access by multiple transactions.
+```sql
+SELECT *
+FROM myTable WITH (TABLOCK) -- will lock the entire table
+WHERE id = 1;
+```
 
 # DELETE
 - used to delete one or more rows in a table, based on a specified condition.
+```sql
+DELETE FROM table_name WHERE condition;
+```
 
 # INDEX
 - used to create an index on one or more columns in a table, to improve query performance.
+```sql
+CREATE [UNIQUE] [CLUSTERED | NONCLUSTERED] INDEX index_name
+ON table_name (column1, column2, ...);
+```
+
+# DROP INDEX
+- Used to drop index in a column.
+```sql
+DROP INDEX index_name ON table_name;
+```
 
 # UNIQUE INDEX
 - similar to an index, but also enforces a unique constraint on the specified columns.
+```sql
+CREATE UNIQUE INDEX idx_name ON table_name (column_name);
+```
 
 # CLUSTERED INDEX
 - an index that determines the physical order of the data in a table, based on the values in the specified columns.
+```sql
+CREATE CLUSTERED INDEX index_name ON table_name(column_name);
+```
 
 # NONCLUSTERED INDEX
 - an index that does not determine the physical order of the data in a table, but instead provides a separate data structure for faster lookup of values in the specified columns.
+```sql
+CREATE NONCLUSTERED INDEX index_name
+ON table_name (column1, column2, ...);
+```
