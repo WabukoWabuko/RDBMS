@@ -1020,22 +1020,69 @@ SELECT TRY_PARSE('2022-03-01' AS DATE USING 'en-US') AS ParsedDate;
 
 # GROUPING SETS
 - used to group data by multiple combinations of columns in a single query.
+```sql
+SELECT column1, column2, ..., aggregate_function(column)
+FROM table_name
+GROUP BY GROUPING SETS ((column1, column2), column3, ...)
+
+
+SELECT region, product, SUM(sales) as total_sales
+FROM sales_data
+GROUP BY GROUPING SETS ((region, product), region, ())
+ORDER BY region, product
+```
 
 # PARTITION BY
 - used with ranking functions to partition a result set into subsets based on the values in one or more columns.
+```sql
+SELECT column1, column2, ..., columnN,
+       aggregate_function(column1) OVER (PARTITION BY partition_column1, partition_column2, ..., partition_columnN
+                                         ORDER BY order_column1, order_column2, ..., order_columnN
+                                         ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as result_alias
+FROM table_name;
+
+
+SELECT region, year, SUM(sales) OVER (PARTITION BY region ORDER BY year) as total_sales
+FROM sales_table;
+```
 
 # CROSS APPLY
 - used to apply a table-valued function to each row of a table expression.
+```sql
+SELECT *
+FROM table1
+CROSS APPLY table_function(argument)
+```
 
 # OUTER APPLY
 - similar to CROSS APPLY, but also includes rows from the left table expression that do not match any rows in the right table expression.
-
+```sql
+SELECT *
+FROM table1
+OUTER APPLY table_function(argument)
+```
 
 # CUMULATIVE DISTRIBUTION FUNCTION (CDF)
 - calculates the cumulative distribution of a specified column in a table.
+- Lemme use the command over coz, i have listed avg and sum already.
+```sql
+SELECT value, COUNT(*) OVER (ORDER BY value) / CAST(COUNT(*) OVER () AS FLOAT) AS cdf
+FROM my_table
+```
 
 # CORRELATED SUBQUERY
 - a subquery that references a column from the outer query.
+- There will be another repo for subquerries to dig deep on the knowledge we have.
+```sql
+SELECT column1, column2, ...
+FROM table1
+WHERE column1 operator (SELECT column1 FROM table2 WHERE condition);
+
+
+SELECT customer_name, customer_city
+FROM customers c
+WHERE customer_age > (SELECT AVG(customer_age) FROM customers WHERE customer_city = c.customer_city);
+```
 
 # ROWLOCK
 - used to lock a single row in a table, to prevent concurrent access by multiple transactions.
