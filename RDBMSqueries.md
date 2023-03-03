@@ -65,6 +65,16 @@ SELECT column1, column2, ...
 FROM table1
 FULL OUTER JOIN table2
 ON table1.column = table2.column;
+
+
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.column = table2.column
+UNION
+SELECT *
+FROM table1
+RIGHT JOIN table2 ON table1.column = table2.column
+WHERE table1.column IS NULL;
 ```
 
   5. ## SELF JOIN
@@ -78,21 +88,7 @@ FROM employees e
 JOIN employees m ON e.manager_id = m.employee_id;
 ```
 
- 6. ## FULL OUTER JOIN
-- returns all rows from both tables, and matches rows from both tables when they are equal<br>
-- Combines both Left Outer Join and Right Outer Join
-```sql
-SELECT *
-FROM table1
-LEFT JOIN table2 ON table1.column = table2.column
-UNION
-SELECT *
-FROM table1
-RIGHT JOIN table2 ON table1.column = table2.column
-WHERE table1.column IS NULL;
-```
-
- 7. ## LEFT OUTER JOIN
+ 6. ## LEFT OUTER JOIN
 - returns all rows from the left table and the matching rows from the right table, and NULL values for the non-matching rows in the right table
 ```sql
 SELECT *
@@ -100,7 +96,7 @@ FROM table1
 LEFT JOIN table2 ON table1.column = table2.column;
 ```
 
- 8. ## RIGHT OUTER JOIN
+ 7. ## RIGHT OUTER JOIN
 - returns all rows from the right table and the matching rows from the left table, and NULL values for the non-matching rows in the left table
 ```sql
 SELECT *
@@ -108,7 +104,7 @@ FROM table1
 RIGHT JOIN table2 ON table1.column = table2.column;
 ```
 
- 9. ## CROSS JOIN 
+ 8. ## CROSS JOIN 
 - returns the Cartesian product of the two tables, that is, all possible combinations of rows between the two tables.
 ```sql
 SELECT *
@@ -611,141 +607,349 @@ SELECT column1, column2, ...
 FROM table2;
 ```
 
-# CASE
-- performs conditional logic in a query and returns different values based on the condition.
-
 # ROWS BETWEEN
 - allows you to specify a range of rows within a result set for a window function to operate on.
+```sql
+SELECT customer_id, sale_date, sale_amount,
+    SUM(sale_amount) OVER (
+        PARTITION BY customer_id
+        ORDER BY sale_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS running_total
+FROM sales_table;
+```
 
 # CROSS APPLY
 - applies a table-valued function to each row of a table and returns the combined result set.
+```sql
+SELECT *
+FROM table1
+CROSS APPLY table2
+WHERE condition;
+```
 
 # OUTER APPLY
 - similar to CROSS APPLY, but also returns rows from the left table that do not match any rows in the right table.
+```sql
+SELECT *
+FROM table1
+OUTER APPLY table2
+WHERE condition;
 
-# OFFSET
-- used in conjunction with FETCH to specify the starting position for retrieving rows from a query result.
+
+SELECT col1, col2, AVG(col3) OVER (ORDER BY col1 ROWS BETWEEN 3 PRECEDING AND 1 PRECEDING)
+FROM table1;
+```
 
 # TRIGGER
 - a special type of stored procedure that automatically executes in response to specific events, such as INSERT, UPDATE, or DELETE statements.
+```sql
+CREATE TRIGGER trigger_name
+{BEFORE | AFTER} {INSERT | UPDATE | DELETE} ON table_name
+FOR EACH ROW
+BEGIN
+    -- trigger actions here
+END;
+```
 
 # CONSTRAINT
 - defines rules that must be followed for data to be entered into a table, such as a NOT NULL constraint or a FOREIGN KEY constraint.
+```sql
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name
+{CHECK (condition) | UNIQUE (column_name) | PRIMARY KEY (column_name) | FOREIGN KEY (column_name) REFERENCES other_table (column_name)}
+```
 
 # INDEXED VIEW
 - a view that has been materialized and stored in the database as an indexed table, improving query performance.
+```sql
+CREATE VIEW view_name
+AS SELECT column1, column2, ...
+FROM table_name
+WHERE condition
+WITH CHECK OPTION
+GO
+
+CREATE UNIQUE CLUSTERED INDEX index_name
+ON view_name (column_name)
+GO
+```
 
 # TEMPORARY TABLE
 - a table that is created and used only for the duration of a single session or transaction.
+```sql
+CREATE TEMPORARY TABLE table_name (
+column1 datatype,
+column2 datatype,
+...
+);
+
+INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...);
+```
 
 # CROSS DATABASE QUERY
 - allows you to query tables and views across multiple databases within the same RDBMS instance.
-
-# JOINS WITH USING
-- allows you to specify the column(s) that the two tables have in common, rather than using the ON clause to join based on a condition.
+```sql
+SELECT *
+FROM database1.table1 t1
+JOIN database2.table2 t2 ON t1.id = t2.id;
+```
 
 # IN
 - used to specify a list of values to match against a column in a subquery or WHERE clause.
-
-# EXISTS
-- used to check if a subquery returns any rows, and can be used to filter the results of an outer query based on the existence of related data.
-
-# NOT EXISTS
-- used to filter the results of an outer query based on the absence of related data.
+```sql
+SELECT *
+FROM table_name
+WHERE column_name IN (value1, value2, value3);
+```
 
 # ANY/SOME
 - used to compare a single value to a list of values returned by a subquery.
+```sql
+SELECT *
+FROM table_name
+WHERE column_name > ANY (
+    SELECT column_name
+    FROM another_table
+    WHERE some_column = some_value
+);
+
+
+SELECT *
+FROM table_name
+WHERE column_name > SOME (
+    SELECT column_name
+    FROM another_table
+    WHERE some_column = some_value
+);
+
+```
 
 # ALL
 - used to check if all values returned by a subquery meet a certain condition.
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name operator ALL (SELECT column_name FROM table_name WHERE condition);
+```
 
-# FULL OUTER JOIN
-- returns all rows from both tables in the join, including those that do not match any rows in the other table.
-
-# CROSS JOIN
-- returns the Cartesian product of two tables, which is all possible combinations of rows from both tables.
-
-# MERGE JOIN
+# MERGE JOIN/ HASH JOIN
 - used when joining two large sorted datasets, and can be more efficient than other join types in certain cases.
-
-# HASH JOIN
 - used when joining two large unsorted datasets, and can be more efficient than other join types in certain cases.
+```sql
+SELECT *
+FROM table1
+JOIN table2
+ON table1.column_name = table2.column_name
+ORDER BY column_name;
+```
 
 # PIVOT
 - rotates a table-valued expression by turning the unique values from one column into multiple columns in the output.
+```sql
+SELECT <non-pivoted column>,
+       [first pivoted column] AS <column name>,
+       [second pivoted column] AS <column name>,
+       ...
+FROM
+    (<SELECT query that produces the data>)
+PIVOT
+(
+    <aggregation function>(<column to be aggregated>)
+    FOR
+    [<column that contains the values to become column headers>]
+    IN ( [first pivoted column], [second pivoted column],
+         ... [last pivoted column])
+) AS <alias for the pivot table>
+```
 
 # UNPIVOT
 - performs the opposite of PIVOT, and transforms columns into rows.
+```sql
+SELECT <key>,
+       <value>
+FROM
+    (<SELECT query that produces the data>)
+UNPIVOT
+(
+    <value>
+    FOR <column> IN ([first column], [second column], ..., [last column])
+) AS <alias for the unpivot table>
+```
 
 # CHECK constraint
 - defines a condition that must be met for data to be entered into a column, such as a range of allowed values or a regular expression pattern.
+```sql
+```
 
 # EXPLICIT TRANSACTION
 - allows you to group one or more statements together as a single transaction, which can be committed or rolled back as a unit of work.
+```sql
+START TRANSACTION [transaction_options];
+```
+- WITH CONSISTENT SNAPSHOT: This option enables the transaction to use a consistent snapshot of the database, which means that the transaction will see the database as it was at the start of the transaction, regardless of any changes made to the database by other transactions.
+- READ WRITE: This option specifies that the transaction can read and write data.
+- READ ONLY: This option specifies that the transaction can only read data.
 
 # ISNULL
 - returns the first non-null expression in a list of expressions.
+```sql
+ISNULL(expression, value)
+
+
+SELECT department_name, ISNULL(department_name, 'Unknown') as department_name2
+FROM departments;
+```
 
 # CONCAT
 - concatenates two or more strings into a single string.
+```sql
+CONCAT(string1, string2, ...)
+
+
+SELECT CONCAT(first_name, ' ', last_name) as 'Full Name'
+FROM employees;
+```
 
 # STRING_AGG
 - aggregates a set of strings into a single string using a specified separator.
+```sql
+STRING_AGG (expression, delimiter)
+
+
+SELECT STRING_AGG(name, ', ') AS concatenated_names
+FROM employees;
+```
 
 # JSON_VALUE
 - extracts a scalar value from a JSON string based on a specified path.
+```sql
+SELECT JSON_VALUE('{"name": "Wabuko", "age": 21, "city": "Khwisero/Butere"}', '$.name');
+```
 
 # JSON_QUERY
 - returns a JSON fragment from a JSON string based on a specified path.
+```sql
+SELECT JSON_QUERY('{"name": "Wabuko", "age": 21, "city": "Manyulia/Butere"}', '$.name');
+```
 
 # JSON_MODIFY
 - updates a JSON string based on a specified path.
+```sql
+JSON_MODIFY(json_string, path, new_value)
+
+
+DECLARE @json NVARCHAR(MAX) = '{"product": "chicken", "price": 1000}';
+SET @json = JSON_MODIFY(@json, '$.price', 1200);
+SELECT @json;
+```
 
 # STRING_SPLIT
 - splits a string into a table of substrings based on a specified separator.
+```sql
+STRING_SPLIT (string, delimiter)
+
+
+SELECT value
+FROM STRING_SPLIT('apple,banana,cherry', ',');
+```
 
 # IIF
 - performs conditional logic in a query and returns one of two values based on the condition.
+```sql
+IIF(logical_expression, value_if_true, value_if_false)
+
+
+SELECT customer_name, IIF(customer_total > 1000, 'VIP', 'Regular') AS customer_type
+FROM customers;
+```
 
 # TRY/CATCH
 - used to handle errors that occur during the execution of a query, and allows you to gracefully handle and recover from those errors.
+```sql
+BEGIN TRY
+    -- SQL statements to execute
+END TRY
+BEGIN CATCH
+    -- Handle the error
+END CATCH
 
-# Common Table Expressions (CTE)
-- provides a way to define a temporary result set that can be referenced within a SELECT, INSERT, UPDATE, or DELETE statement.
 
-# WITH clause
-- used to define a CTE.
-
-# MERGE
-- used to perform INSERT, UPDATE, and DELETE operations on a target table based on the results of a join with a source table.
-
-# OFFSET/FETCH
-- used to limit the number of rows returned by a query, and can be used in conjunction with ORDER BY to return a specific subset of rows.
+BEGIN TRY
+    SELECT 1/0;
+END TRY
+BEGIN CATCH
+    SELECT 'An error occurred: ' + ERROR_MESSAGE() AS error_message;
+END CATCH;
+```
 
 # STRING_ESCAPE
 - escapes special characters in a string, such as single quotes or double quotes, so that they can be used in a SQL statement.
+```sql
+SELECT STRING_ESCAPE('John\'s book', 'sql')
+```
 
 # CONCAT_WS
 - concatenates two or more strings into a single string using a specified separator, and automatically excludes null values.
+```sql
+SELECT CONCAT_WS(',', 'John', 'Doe', '25')
+```
 
 # DATEADD
 - adds a specified interval to a date or time value.
+```sql
+DATEADD(interval, number, date)
+
+
+SELECT DATEADD(day, 3, '2022-03-01');
+```
 
 # DATEDIFF
 - returns the difference between two date or time values, in a specified interval.
+```sql
+DATEDIFF(interval, start_date, end_date)
+
+
+SELECT DATEDIFF(day, '2022-03-01', '2022-03-04');
+```
 
 # DATEPART
 - extracts a specified part of a date or time value, such as the year, month, or day.
+```sql
+SELECT DATEPART(year, '2022-03-01')
+-- returns: 2022
+
+SELECT DATEPART(quarter, GETDATE())
+-- returns: the quarter number of the current date
+
+SELECT DATEPART(dayofyear, '2022-03-01')
+-- returns: 60 (the 60th day of the year)
+```
 
 # DATENAME
 - returns the name of a specified part of a date or time value, such as the name of the month or day of the week.
+```sql
+SELECT DATENAME(month, '2022-03-01')
+-- returns: March
+
+SELECT DATENAME(weekday, GETDATE())
+-- returns: the name of the day of the week for the current date
+```
 
 # GETDATE
 - returns the current date and time from the system clock.
+```sql
+Get the current date and time using GETDATE()
+SELECT GETDATE() AS CurrentDateTime;
+```
 
 # SYSDATETIME
 - returns the current date and time from the system clock, with high precision.
-
+```sql
+Get the current date and time using SYSDATETIME()
+SELECT SYSDATETIME() AS CurrentDateTime;
+```
 
 # CONVERT
 - converts a value from one data type to another, and allows you to specify a format.
@@ -774,15 +978,6 @@ FROM table2;
 # GROUPING SETS
 - used to group data by multiple combinations of columns in a single query.
 
-# RANK
-- assigns a rank to each row in a result set based on the values in one or more columns.
-
-# DENSE_RANK
-- assigns a rank to each row in a result set based on the values in one or more columns, and assigns the same rank to rows with the same values.
-
-# ROW_NUMBER
-- assigns a unique row number to each row in a result set.
-
 # PARTITION BY
 - used with ranking functions to partition a result set into subsets based on the values in one or more columns.
 
@@ -792,11 +987,6 @@ FROM table2;
 # OUTER APPLY
 - similar to CROSS APPLY, but also includes rows from the left table expression that do not match any rows in the right table expression.
 
-# PIVOT
-- used to transform rows into columns, based on the values in a specified column.
-
-# UNPIVOT
-- used to transform columns into rows, based on the values in a specified column.
 
 # CUMULATIVE DISTRIBUTION FUNCTION (CDF)
 - calculates the cumulative distribution of a specified column in a table.
