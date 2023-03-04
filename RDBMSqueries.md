@@ -1100,12 +1100,6 @@ FROM myTable WITH (TABLOCK) -- will lock the entire table
 WHERE id = 1;
 ```
 
-# DELETE
-- used to delete one or more rows in a table, based on a specified condition.
-```sql
-DELETE FROM table_name WHERE condition;
-```
-
 # INDEX
 - used to create an index on one or more columns in a table, to improve query performance.
 ```sql
