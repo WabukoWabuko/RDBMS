@@ -1,3 +1,3 @@
 # RDBMS
-RDBMS queries that are majorly used in Database managements.
-MySQL commands are the ones precisely used.
+RDBMS queries that are majorly used in Relational Database Managements.<br>
+MySQL commands are precisely used here.
