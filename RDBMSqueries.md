@@ -5,7 +5,7 @@ SELECT column1, column2, ...
 FROM table_name
 WHERE condition;
 ```
-
+    
 # INSERT
 - adds new data to a table
 ```sql
