@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Alert, Navbar, Nav } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryCard from './components/QueryCard';
 import SearchBar from './components/SearchBar';
 import ThemeToggle from './components/ThemeToggle';
 import { ThemeContext } from './context/ThemeContext';
 import rdbmsData from './data/rdbmsData';
-import '../styles/styles.css';
+import './styles/styles.css'; // Fixed import path
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
