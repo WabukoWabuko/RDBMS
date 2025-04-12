@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/RDBMS/static/css/main.066d7af3.css",
+    "main.js": "/RDBMS/static/js/main.b17902ca.js",
+    "static/js/453.8ab44547.chunk.js": "/RDBMS/static/js/453.8ab44547.chunk.js",
+    "index.html": "/RDBMS/index.html",
+    "main.066d7af3.css.map": "/RDBMS/static/css/main.066d7af3.css.map",
+    "main.b17902ca.js.map": "/RDBMS/static/js/main.b17902ca.js.map",
+    "453.8ab44547.chunk.js.map": "/RDBMS/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.066d7af3.css",
+    "static/js/main.b17902ca.js"
+  ]
+}
