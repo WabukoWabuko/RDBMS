@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, FormControl } from 'react-bootstrap';
 
 const SearchBar = ({ onSearch }) => {
   return (
     <Form className="mb-4">
-      <Form.Control
+      <FormControl
         type="text"
-        placeholder="Search for a SQL command..."
+        placeholder="Search SQL commands..."
         onChange={(e) => onSearch(e.target.value)}
       />
     </Form>
@@ -14,4 +14,3 @@ const SearchBar = ({ onSearch }) => {
 };
 
 export default SearchBar;
-
