@@ -43,7 +43,23 @@ const App = () => {
       setLikes((prev) => prev + 1);
       setHasLiked(true);
       localStorage.setItem('hasLiked', 'true');
-      toast.success('Thanks for the like!', { autoClose: 2000 });
+
+      const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfI8kvWlFiSnv1A4gRZpiLQc24el7pla8GTqVYoCD8QqxWZZA/formResponse'; // e.g., https://docs.google.com/forms/u/0/d/e/1FAIpQLSf.../formResponse
+      const formUrl = process.env.REACT_APP_FORM_URL;
+      formData.append(process.env.REACT_APP_ENTRY_ID, 'Like'); // e.g., entry.123456789
+
+      fetch(formUrl, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      })
+        .then(() => {
+          toast.success('Thanks for the like!', { autoClose: 2000 });
+        })
+        .catch((err) => {
+          console.error('Failed to log like:', err);
+          toast.success('Thanks for the like! (Tracking may have failed)', { autoClose: 2000 });
+        });
     }
   };
 
