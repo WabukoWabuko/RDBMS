@@ -3,7 +3,7 @@ import { Container, Row, Col, Alert, Navbar, Nav, Pagination } from 'react-boots
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Confetti from 'react-confetti';
-import { motion } from 'framer-motion'; // Removed AnimatePresence
+import { motion } from 'framer-motion';
 import QueryCard from './components/QueryCard';
 import SearchBar from './components/SearchBar';
 import ThemeToggle from './components/ThemeToggle';
@@ -34,7 +34,7 @@ const App = () => {
   const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10));
   const [hasLiked, setHasLiked] = useState(() => localStorage.getItem('hasLiked') === 'true');
   const [currentPage, setCurrentPage] = useState(1);
-  const [showConfetti, setShowConfetti] = useState(false); // For sparkling effect
+  const [showConfetti, setShowConfetti] = useState(false);
   const itemsPerPage = 6;
   const { theme } = useContext(ThemeContext);
 
@@ -65,12 +65,15 @@ const App = () => {
     if (!hasLiked) {
       setLikes((prev) => prev + 1);
       setHasLiked(true);
-      setShowConfetti(true); // Trigger confetti
+      setShowConfetti(true);
       localStorage.setItem('hasLiked', 'true');
 
-      const formUrl = process.env.REACT_APP_FORM_URL;
+      // Hardcoded Google Form URL and Entry ID (replace with your actual values)
+      const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfI8kvWlFiSnv1A4gRZpiLQc24el7pla8GTqVYoCD8QqxWZZA/formResponse"; // Replace with your Google Form URL
+      const entryId = "entry.1745137770"; // Replace with your Google Form entry ID
+
       const formData = new FormData();
-      formData.append(process.env.REACT_APP_ENTRY_ID, 'Like');
+      formData.append(entryId, 'Like');
 
       fetch(formUrl, {
         method: 'POST',
@@ -78,7 +81,7 @@ const App = () => {
         mode: 'no-cors'
       })
         .then(() => {
-          toast.success('Thanks for the like, please visit Github account and star!', { autoClose: 2000 });
+          toast.success('Thanks for the like! Star mr GitHub Repo too.', { autoClose: 2000 });
         })
         .catch((err) => {
           console.error('Failed to log like:', err);
@@ -98,7 +101,7 @@ const App = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedQueries = filteredQueries.slice(startIndex, startIndex + itemsPerPage);
 
-  // Pagination logic: Show max 5 pages, shift as user navigates
+  // Pagination logic: Show max 5 pages
   const maxVisiblePages = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
   let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
