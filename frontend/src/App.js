@@ -43,6 +43,7 @@ const App = () => {
       setLikes((prev) => prev + 1);
       setHasLiked(true);
       localStorage.setItem('hasLiked', 'true');
+      toast.success('Thanks for the like!', { autoClose: 2000 });
     }
   };
 
@@ -84,7 +85,7 @@ const App = () => {
             <Nav.Link
               href="https://github.com/WabukoWabuko/RDBMS"
               target="_blank"
-              className="d-flex align-items-center"
+              className="d-flex align-items-center star-link"
             >
               ⭐ Star ({starCount})
             </Nav.Link>
@@ -102,7 +103,7 @@ const App = () => {
             onClick={() => {
               const examples = filteredQueries.map((q) => q.example).join('\n\n');
               navigator.clipboard.writeText(examples);
-              toast.success('Examples copied to clipboard!');
+              toast.success('Examples copied to clipboard!', { autoClose: 2000 });
             }}
           >
             Copy All Examples
@@ -167,7 +168,7 @@ const App = () => {
         </footer>
       </Container>
 
-      <ToastContainer position="bottom-right" theme={theme} />
+      <ToastContainer position="bottom-right" theme={theme} autoClose={2000} />
       <button
         className="back-to-top"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

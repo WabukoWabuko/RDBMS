@@ -9,14 +9,14 @@ const SearchBar = ({ onSearch }) => {
   return (
     <Form className="mb-5">
       <InputGroup>
-        <InputGroup.Text className={theme === 'light' ? 'bg-light' : 'bg-dark text-light'}>
+        <InputGroup.Text className={theme === 'light' ? 'bg-light text-dark' : 'bg-dark text-light'}>
           <FaSearch />
         </InputGroup.Text>
         <FormControl
           type="text"
           placeholder="Search SQL commands..."
           onChange={(e) => onSearch(e.target.value)}
-          className={theme === 'light' ? '' : 'bg-dark text-light'}
+          className={theme === 'light' ? 'bg-light text-dark' : 'bg-dark text-light'}
           aria-label="Search SQL commands"
         />
       </InputGroup>

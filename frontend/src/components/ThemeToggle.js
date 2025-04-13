@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Button } from 'react-bootstrap';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import { ThemeContext } from '../context/ThemeContext';
-import { FaMoon, FaSun } from 'react-icons/fa'; // Optional: Icons
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -10,7 +10,7 @@ const ThemeToggle = () => {
     <Button
       variant={theme === 'light' ? 'outline-dark' : 'outline-light'}
       onClick={toggleTheme}
-      className="mb-3"
+      className="theme-toggle"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? <FaMoon /> : <FaSun />}
