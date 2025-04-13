@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { ThemeContext } from '../context/ThemeContext';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism-okaidia.css'; // Matches dark mode
 import 'prismjs/components/prism-sql'; // SQL highlighting
 import '../styles/styles.css';
 
 const QueryCard = ({ title, description, example, tags }) => {
-  // Highlight code on mount
-  React.useEffect(() => {
-    Prism.highlightAll();
-  }, [example]);
+  const { theme } = useContext(ThemeContext);
 
-  // Handle copy example
+  // Load Prism theme dynamically
+  React.useEffect(() => {
+    import(`prismjs/themes/prism${theme === 'dark' ? '-okaidia' : ''}.css`).then(() => {
+      Prism.highlightAll();
+    });
+  }, [theme, example]);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(example).then(() => {
       toast.success('Example copied to clipboard!', { autoClose: 2000 });
@@ -23,7 +26,7 @@ const QueryCard = ({ title, description, example, tags }) => {
   };
 
   return (
-    <Card className="query-card shadow-sm" data-theme="theme">
+    <Card className="query-card shadow-sm" data-theme={theme}>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
