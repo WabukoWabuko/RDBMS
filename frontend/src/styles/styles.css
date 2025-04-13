@@ -241,3 +241,23 @@ footer a:hover {
   background-color: #4dabf7;
   color: #212529;
 }
+
+.copy-btn {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .copy-btn {
+  color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+
+[data-theme='dark'] .copy-btn:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.query-card {
+  transition: all 0.3s ease;
+}
