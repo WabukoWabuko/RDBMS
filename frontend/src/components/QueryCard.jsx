@@ -17,11 +17,12 @@ const QueryCard = ({ title, description, example, tags, category }) => {
         <pre>
           <code className="language-sql">{example}</code>
         </pre>
-        <Button variant="outline-secondary" size="sm" className="copy-btn mt-2" onClick={handleCopy}>
+        <Button variant="outline-secondary" size="sm" className="copy-btn mt-3" onClick={handleCopy}>
           Copy Example
         </Button>
-        <div className="mt-2">
-          <strong className="category-label">Category:</strong> <span className="category-value">{category}</span>
+        <div className="mt-3">
+          <strong className="category-label">Category:</strong>{' '}
+          <span className="category-value">{category}</span>
         </div>
         <div className="mt-1 text-muted">
           <strong>Tags:</strong> {tags.join(', ')}
