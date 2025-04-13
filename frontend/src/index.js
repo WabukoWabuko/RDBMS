@@ -1,13 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'; // Import createRoot
 import App from './App';
 import { ThemeProvider } from './context/ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.css';
 
-ReactDOM.render(
+// Create a root
+const root = createRoot(document.getElementById('root'));
+
+// Render the app
+root.render(
   <ThemeProvider>
     <App />
-  </ThemeProvider>,
-  document.getElementById('root')
+  </ThemeProvider>
 );

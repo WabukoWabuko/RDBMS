@@ -7,7 +7,7 @@ import SearchBar from './components/SearchBar';
 import ThemeToggle from './components/ThemeToggle';
 import { ThemeContext } from './context/ThemeContext';
 import rdbmsData from './data/rdbmsData';
-import './styles/styles.css'; // Fixed import path
+import './styles/styles.css';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,17 +31,25 @@ const App = () => {
 
   return (
     <div className={`app ${theme}`}>
+      {/* WabukoWabuko Softwares Identifier and Like Button */}
+      <header className="app-header">
+        <div className="identifier">
+          <h1>WabukoWabuko Softwares</h1>
+        </div>
+        <a
+          href="https://github.com/WabukoWabuko/RDBMS"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="like-button"
+        >
+          ⭐ Like ({starCount})
+        </a>
+      </header>
+
       <Navbar bg={theme === 'light' ? 'light' : 'dark'} variant={theme} expand="lg" className="mb-4 shadow-sm">
         <Container>
           <Navbar.Brand href="#">📘 RDBMS SQL Guide</Navbar.Brand>
           <Nav className="ms-auto">
-            <Nav.Link
-              href="https://github.com/WabukoWabuko/rdbms-queries-viewer"
-              target="_blank"
-              className="d-flex align-items-center"
-            >
-              ⭐ Star ({starCount})
-            </Nav.Link>
             <ThemeToggle />
           </Nav>
         </Container>
@@ -73,7 +81,16 @@ const App = () => {
             | <a href="mailto:basilwabbs@gmail.com">basilwabbs@gmail.com</a> |{' '}
             <a href="tel:+254740750403">+254740750403</a>
           </p>
-          <p>Star this project on <a href="https://github.com/WabukoWabuko/rdbms-queries-viewer" target="_blank" rel="noopener noreferrer">GitHub</a>!</p>
+          <p>
+            Star this project on{' '}
+            <a
+              href="https://github.com/WabukoWabuko/rdbms-queries-viewer"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>!
+          </p>
         </footer>
       </Container>
 
