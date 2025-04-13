@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Alert, Navbar, Nav, Pagination, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Alert, Navbar, Nav, Pagination } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryCard from './components/QueryCard';
@@ -32,7 +32,6 @@ const App = () => {
   const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10));
   const [hasLiked, setHasLiked] = useState(() => localStorage.getItem('hasLiked') === 'true');
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState('RDBMS'); // Default tab
   const itemsPerPage = 6;
   const { theme } = useContext(ThemeContext);
 
@@ -84,13 +83,11 @@ const App = () => {
     }
   };
 
-  // Filter by search term and active tab
+  // Filter by search term only (removed activeTab filtering)
   const filteredQueries = rdbmsData.filter((item) => {
     if (!item.title || !item.description || !item.example || !item.tags || !item.category) return false;
     const text = `${item.title} ${item.description} ${item.example} ${item.tags.join(' ')}`.toLowerCase();
-    const matchesSearch = debouncedSearchTerm ? text.includes(debouncedSearchTerm.toLowerCase()) : true;
-    const matchesTab = item.category === activeTab;
-    return matchesSearch && matchesTab;
+    return debouncedSearchTerm ? text.includes(debouncedSearchTerm.toLowerCase()) : true;
   });
 
   const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
@@ -120,6 +117,7 @@ const App = () => {
 
       <Navbar bg="transparent" variant={theme} expand="lg" className="mb-4 shadow-sm">
         <Container>
+          <Navbar.Brand href="#">📘 SQL Guide</Navbar.Brand>
           <Nav className="ms-auto">
             <Nav.Link
               href="https://github.com/WabukoWabuko/RDBMS"
@@ -134,26 +132,11 @@ const App = () => {
       </Navbar>
 
       <Container className="py-5 main-content">
-        {/* Tab Navigation */}
-        <Tabs
-          activeKey={activeTab}
-          onSelect={(k) => {
-            setActiveTab(k);
-            setCurrentPage(1); // Reset to page 1 when switching tabs
-          }}
-          className="mb-4"
-          variant={theme === 'dark' ? 'pills' : 'tabs'}
-        >
-          <Tab eventKey="RDBMS" title="RDBMS SQL Guide" />
-          <Tab eventKey="NonRDBMS" title="NonRDBMS Guide" />
-          <Tab eventKey="GeneralSQL" title="General SQL" />
-        </Tabs>
-
         <SearchBar onSearch={setSearchTerm} />
 
         {filteredQueries.length === 0 && (
           <Alert variant={theme === 'light' ? 'warning' : 'dark'} className="text-center">
-            No SQL commands found for "{searchTerm}" in {activeTab} tab. Try a different search term or tab.
+            No SQL commands found for "{searchTerm}". Try a different search term.
           </Alert>
         )}
 

@@ -103,40 +103,6 @@
   padding-bottom: 2rem;
 }
 
-/* Tabs */
-.nav-tabs .nav-link {
-  color: #212529;
-  border: 1px solid #dee2e6;
-  border-bottom: none;
-}
-
-.nav-tabs .nav-link.active {
-  background-color: #fff;
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
-}
-
-[data-theme='dark'] .nav-tabs .nav-link {
-  color: #f8f9fa;
-  border: 1px solid #495057;
-}
-
-[data-theme='dark'] .nav-tabs .nav-link.active {
-  background-color: #343a40;
-  color: #66b0ff;
-  border-bottom: 2px solid #66b0ff;
-}
-
-.nav-pills .nav-link {
-  color: #f8f9fa;
-  background-color: #495057;
-}
-
-.nav-pills .nav-link.active {
-  background-color: #66b0ff;
-  color: #212529;
-}
-
 /* Search bar */
 .search-bar {
   margin-bottom: 1.5rem;
@@ -221,6 +187,27 @@
 
 [data-theme='dark'] .copy-btn:hover {
   background-color: #495057;
+}
+
+/* Category */
+.category-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+[data-theme='dark'] .category-label {
+  color: #66b0ff;
+}
+
+.category-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+[data-theme='dark'] .category-value {
+  color: #f8f9fa;
 }
 
 /* Tags */
