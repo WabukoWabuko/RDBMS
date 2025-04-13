@@ -44,9 +44,9 @@ const App = () => {
       setHasLiked(true);
       localStorage.setItem('hasLiked', 'true');
 
-      const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfI8kvWlFiSnv1A4gRZpiLQc24el7pla8GTqVYoCD8QqxWZZA/formResponse'; // e.g., https://docs.google.com/forms/u/0/d/e/1FAIpQLSf.../formResponse
       const formUrl = process.env.REACT_APP_FORM_URL;
-      formData.append(process.env.REACT_APP_ENTRY_ID, 'Like'); // e.g., entry.123456789
+      const formData = new FormData();
+      formData.append(process.env.REACT_APP_ENTRY_ID, 'Like');
 
       fetch(formUrl, {
         method: 'POST',
