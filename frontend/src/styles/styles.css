@@ -77,10 +77,6 @@
   background-color: #343a40 !important;
 }
 
-.navbar-brand {
-  font-size: 1.25rem;
-}
-
 .nav-link {
   color: #212529;
 }
@@ -107,7 +103,41 @@
   padding-bottom: 2rem;
 }
 
-/* Search bar (assumed from SearchBar component) */
+/* Tabs */
+.nav-tabs .nav-link {
+  color: #212529;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #fff;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+[data-theme='dark'] .nav-tabs .nav-link {
+  color: #f8f9fa;
+  border: 1px solid #495057;
+}
+
+[data-theme='dark'] .nav-tabs .nav-link.active {
+  background-color: #343a40;
+  color: #66b0ff;
+  border-bottom: 2px solid #66b0ff;
+}
+
+.nav-pills .nav-link {
+  color: #f8f9fa;
+  background-color: #495057;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #66b0ff;
+  color: #212529;
+}
+
+/* Search bar */
 .search-bar {
   margin-bottom: 1.5rem;
 }
@@ -124,24 +154,6 @@
   background-color: #343a40;
   color: #f8f9fa;
   border-color: #495057;
-}
-
-/* Copy All Examples button */
-.copy-all-btn {
-  display: block;
-  margin: 0 auto 2rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #6f42c1; /* Purple to match screenshot */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.copy-all-btn:hover {
-  background-color: #563d7c;
 }
 
 /* Query card */
@@ -186,7 +198,7 @@
   background-color: #2d2d2d; /* Matches prism-okaidia.css */
 }
 
-/* Copy Example button (added to QueryCard) */
+/* Copy Example button */
 .copy-btn {
   font-size: 0.9rem;
   padding: 0.3rem 0.6rem;
@@ -216,6 +228,10 @@
   font-size: 0.8rem;
 }
 
+[data-theme='dark'] .query-card .text-muted {
+  color: #adb5bd !important;
+}
+
 /* Alert (no results) */
 .alert {
   margin-bottom: 2rem;
@@ -224,6 +240,8 @@
 /* Pagination */
 .pagination .page-link {
   color: #007bff;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
 }
 
 [data-theme='dark'] .pagination .page-link {
@@ -235,11 +253,25 @@
 .pagination .page-item.active .page-link {
   background-color: #007bff;
   border-color: #007bff;
+  color: #fff;
 }
 
 [data-theme='dark'] .pagination .page-item.active .page-link {
   background-color: #66b0ff;
   border-color: #66b0ff;
+  color: #212529;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+[data-theme='dark'] .pagination .page-item.disabled .page-link {
+  color: #adb5bd;
+  background-color: #343a40;
+  border-color: #495057;
 }
 
 /* Footer */
@@ -251,6 +283,14 @@ footer {
 
 [data-theme='dark'] footer {
   border-top: 1px solid #495057;
+}
+
+footer p {
+  color: #212529;
+}
+
+[data-theme='dark'] footer p {
+  color: #f8f9fa;
 }
 
 footer a {
