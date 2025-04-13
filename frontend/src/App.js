@@ -9,6 +9,23 @@ import { ThemeContext } from './context/ThemeContext';
 import rdbmsData from './data/rdbmsData';
 import './styles/styles.css';
 
+// Custom debounce hook
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [starCount, setStarCount] = useState(0);
@@ -17,6 +34,9 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const { theme } = useContext(ThemeContext);
+
+  // Debounce search term to optimize filtering performance
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/WabukoWabuko/RDBMS')
@@ -66,7 +86,7 @@ const App = () => {
   const filteredQueries = rdbmsData.filter((item) => {
     if (!item.title || !item.description || !item.example || !item.tags) return false;
     const text = `${item.title} ${item.description} ${item.example} ${item.tags.join(' ')}`.toLowerCase();
-    return searchTerm ? text.includes(searchTerm.toLowerCase()) : true;
+    return debouncedSearchTerm ? text.includes(debouncedSearchTerm.toLowerCase()) : true;
   });
 
   const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
