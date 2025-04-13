@@ -1,0 +1,55 @@
+.query-card {
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  color: #212529;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.query-card.dark {
+  background-color: #343a40;
+  border-color: #495057;
+  color: #f8f9fa;
+}
+
+.query-card .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.query-card .card-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.code-block {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 1rem;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.dark .code-block {
+  background-color: #2c3035;
+}
+
+/* PrismJS overrides */
+.dark .code-block .language-sql {
+  background: none;
+  color: #f8f9fa;
+}
+
+.tag-pill {
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.3rem 0.6rem;
+  margin: 0.2rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.dark .tag-pill {
+  background-color: #495057;
+  color: #f8f9fa;
+}

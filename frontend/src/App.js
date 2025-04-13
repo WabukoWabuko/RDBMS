@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Alert, Navbar, Nav } from 'react-bootstrap';
-import { ToastContainer } from 'react-toastify';
+import { Container, Row, Col, Alert, Navbar, Nav, Pagination } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryCard from './components/QueryCard';
 import SearchBar from './components/SearchBar';
@@ -12,12 +12,10 @@ import './styles/styles.css';
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [starCount, setStarCount] = useState(0);
-  const [likes, setLikes] = useState(() => {
-    return parseInt(localStorage.getItem('likes') || '0', 10);
-  });
-  const [hasLiked, setHasLiked] = useState(() => {
-    return localStorage.getItem('hasLiked') === 'true';
-  });
+  const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10));
+  const [hasLiked, setHasLiked] = useState(() => localStorage.getItem('hasLiked') === 'true');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
@@ -30,6 +28,15 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('likes', likes.toString());
   }, [likes]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const btn = document.querySelector('.back-to-top');
+      if (btn) btn.style.display = window.scrollY > 200 ? 'block' : 'none';
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLike = () => {
     if (!hasLiked) {
@@ -44,6 +51,15 @@ const App = () => {
     const text = `${item.title} ${item.description} ${item.example} ${item.tags.join(' ')}`.toLowerCase();
     return searchTerm ? text.includes(searchTerm.toLowerCase()) : true;
   });
+
+  const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedQueries = filteredQueries.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className={`app ${theme}`} data-theme={theme}>
@@ -61,12 +77,7 @@ const App = () => {
         </button>
       </header>
 
-      <Navbar
-        bg="transparent"
-        variant={theme}
-        expand="lg"
-        className="mb-4 shadow-sm"
-      >
+      <Navbar bg="transparent" variant={theme} expand="lg" className="mb-4 shadow-sm">
         <Container>
           <Navbar.Brand href="#">📘 RDBMS SQL Guide</Navbar.Brand>
           <Nav className="ms-auto">
@@ -85,6 +96,19 @@ const App = () => {
       <Container className="py-5 main-content">
         <SearchBar onSearch={setSearchTerm} />
         
+        {filteredQueries.length > 0 && (
+          <button
+            className="copy-all-btn"
+            onClick={() => {
+              const examples = filteredQueries.map((q) => q.example).join('\n\n');
+              navigator.clipboard.writeText(examples);
+              toast.success('Examples copied to clipboard!');
+            }}
+          >
+            Copy All Examples
+          </button>
+        )}
+
         {filteredQueries.length === 0 && (
           <Alert variant={theme === 'light' ? 'warning' : 'dark'} className="text-center">
             No SQL commands found for "{searchTerm}". Try a different search term.
@@ -92,12 +116,34 @@ const App = () => {
         )}
 
         <Row>
-          {filteredQueries.map((query) => (
+          {paginatedQueries.map((query) => (
             <Col md={6} lg={4} key={query.title} className="mb-4">
               <QueryCard {...query} />
             </Col>
           ))}
         </Row>
+
+        {totalPages > 1 && (
+          <Pagination className="justify-content-center mt-4">
+            <Pagination.Prev
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Pagination.Item
+                key={i + 1}
+                active={i + 1 === currentPage}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+        )}
 
         <footer className="mt-5 text-center">
           <p>
@@ -122,6 +168,12 @@ const App = () => {
       </Container>
 
       <ToastContainer position="bottom-right" theme={theme} />
+      <button
+        className="back-to-top"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        ↑ Top
+      </button>
     </div>
   );
 };

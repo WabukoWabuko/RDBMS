@@ -1,37 +1,32 @@
-import React, { useContext } from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import React, { useEffect, useContext } from 'react';
+import { Card } from 'react-bootstrap';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css'; // Light theme
+import 'prismjs/themes/prism-dark.css'; // Dark theme
 import { ThemeContext } from '../context/ThemeContext';
-import { FaCopy } from 'react-icons/fa';
+import './QueryCard.css';
 
 const QueryCard = ({ title, description, example, tags }) => {
   const { theme } = useContext(ThemeContext);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(example);
-    toast.success('SQL query copied to clipboard!', {
-      position: 'bottom-right',
-      autoClose: 2000,
-    });
-  };
+  // Highlight code when example or theme changes
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [example, theme]);
 
   return (
-    <Card className={`query-card shadow-sm ${theme}`} border={theme === 'light' ? 'light' : 'dark'}>
+    <Card className={`query-card ${theme}`}>
       <Card.Body>
-        <Card.Title className="text-primary">{title}</Card.Title>
+        <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
-        <pre className="bg-light p-3 rounded">{example}</pre>
-        <Card.Text>
-          <strong>Tags:</strong> {tags.join(', ')}
-        </Card.Text>
-        <Button
-          variant="outline-primary"
-          onClick={handleCopy}
-          className="d-flex align-items-center"
-          aria-label={`Copy ${title} query`}
-        >
-          <FaCopy className="me-2" /> Copy
-        </Button>
+        <pre className="code-block">
+          <code className="language-sql">{example}</code>
+        </pre>
+        <div className="tags">
+          {tags && tags.map((tag) => (
+            <span key={tag} className="tag-pill">{tag}</span>
+          ))}
+        </div>
       </Card.Body>
     </Card>
   );
