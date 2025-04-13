@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Alert, Navbar, Nav, Pagination } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Confetti from 'react-confetti';
+import { motion } from 'framer-motion'; // Removed AnimatePresence
 import QueryCard from './components/QueryCard';
 import SearchBar from './components/SearchBar';
 import ThemeToggle from './components/ThemeToggle';
@@ -32,10 +34,11 @@ const App = () => {
   const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10));
   const [hasLiked, setHasLiked] = useState(() => localStorage.getItem('hasLiked') === 'true');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showConfetti, setShowConfetti] = useState(false); // For sparkling effect
   const itemsPerPage = 6;
   const { theme } = useContext(ThemeContext);
 
-  // Debounce search term to optimize filtering performance
+  // Debounce search term
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   useEffect(() => {
@@ -62,6 +65,7 @@ const App = () => {
     if (!hasLiked) {
       setLikes((prev) => prev + 1);
       setHasLiked(true);
+      setShowConfetti(true); // Trigger confetti
       localStorage.setItem('hasLiked', 'true');
 
       const formUrl = process.env.REACT_APP_FORM_URL;
@@ -74,7 +78,7 @@ const App = () => {
         mode: 'no-cors'
       })
         .then(() => {
-          toast.success('Thanks for the like!', { autoClose: 2000 });
+          toast.success('Thanks for the like, please visit Github account and star!', { autoClose: 2000 });
         })
         .catch((err) => {
           console.error('Failed to log like:', err);
@@ -83,7 +87,7 @@ const App = () => {
     }
   };
 
-  // Filter by search term only (removed activeTab filtering)
+  // Filter by search term
   const filteredQueries = rdbmsData.filter((item) => {
     if (!item.title || !item.description || !item.example || !item.tags || !item.category) return false;
     const text = `${item.title} ${item.description} ${item.example} ${item.tags.join(' ')}`.toLowerCase();
@@ -93,6 +97,15 @@ const App = () => {
   const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedQueries = filteredQueries.slice(startIndex, startIndex + itemsPerPage);
+
+  // Pagination logic: Show max 5 pages, shift as user navigates
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  if (endPage - startPage + 1 < maxVisiblePages) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+  const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -105,14 +118,44 @@ const App = () => {
         <div className="identifier">
           <h1>WabukoWabuko Softwares</h1>
         </div>
-        <button
-          onClick={handleLike}
-          className="like-button"
-          disabled={hasLiked}
-          title={hasLiked ? 'You already liked!' : 'Like this app'}
-        >
-          👍 Like ({likes})
-        </button>
+        <div className="like-container">
+          <button
+            onClick={handleLike}
+            className="like-button"
+            disabled={hasLiked}
+            title={hasLiked ? 'You already liked!' : 'Like this app'}
+          >
+            <span className="heart-icon">❤️</span> ({likes})
+          </button>
+          {showConfetti && (
+            <>
+              <Confetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+                numberOfPieces={50}
+                recycle={false}
+                onConfettiComplete={() => setShowConfetti(false)}
+              />
+              <div className="flying-hearts">
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="flying-heart"
+                    initial={{ opacity: 1, y: 0, x: 0 }}
+                    animate={{
+                      opacity: 0,
+                      y: -100,
+                      x: (i % 2 === 0 ? 1 : -1) * (Math.random() * 50 + 20),
+                    }}
+                    transition={{ duration: 1, delay: i * 0.1 }}
+                  >
+                    ❤️
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </header>
 
       <Navbar bg="transparent" variant={theme} expand="lg" className="mb-4 shadow-sm">
@@ -154,13 +197,13 @@ const App = () => {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             />
-            {Array.from({ length: totalPages }, (_, i) => (
+            {pageNumbers.map((page) => (
               <Pagination.Item
-                key={i + 1}
-                active={i + 1 === currentPage}
-                onClick={() => handlePageChange(i + 1)}
+                key={page}
+                active={page === currentPage}
+                onClick={() => handlePageChange(page)}
               >
-                {i + 1}
+                {page}
               </Pagination.Item>
             ))}
             <Pagination.Next

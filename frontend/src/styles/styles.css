@@ -211,16 +211,16 @@
   color: #b0bec5;
 }
 
-/* Code section (always dark) */
+/* Code section (brownish background, always the same) */
 .query-card pre {
-  background-color: #1e2526 !important; /* Always dark */
+  background-color: #4A3C31 !important; /* Warm brownish background */
   padding: 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
   font-family: 'Source Code Pro', monospace; /* Monospaced font for code */
   color: #e0e6ed !important; /* Light text for code */
   overflow-x: auto;
-  border: 1px solid #3a4443;
+  border: 1px solid #5e4b3e; /* Slightly lighter brown border */
 }
 
 /* Copy Example button */
@@ -434,7 +434,7 @@ footer a:hover {
   color: #dfe6e9;
 }
 
-/* PrismJS adjustments */
+/* PrismJS adjustments for syntax highlighting */
 pre[class*="language-"] {
   margin: 0;
   background: transparent !important; /* Handled by .query-card pre */
@@ -442,5 +442,101 @@ pre[class*="language-"] {
 
 code[class*="language-"] {
   font-family: 'Source Code Pro', monospace;
-  color: #e0e6ed !important;
+  color: #e0e6ed !important; /* Base text color */
+}
+
+/* Custom Prism.js theme for SQL syntax highlighting */
+.token.comment {
+  color: #998; /* Light brown for comments */
+  font-style: italic;
+}
+
+.token.keyword {
+  color: #ff79c6; /* Vibrant pink for keywords (e.g., SELECT, INSERT) */
+  font-weight: 600;
+}
+
+.token.function {
+  color: #f1fa8c; /* Bright yellow for functions (e.g., COUNT, SUM) */
+}
+
+.token.string {
+  color: #f1fa8c; /* Yellow for strings */
+}
+
+.token.number {
+  color: #bd93f9; /* Purple for numbers */
+}
+
+.token.operator {
+  color: #8be9fd; /* Cyan for operators (e.g., =, >) */
+}
+
+.token.punctuation {
+  color: #e0e6ed; /* Same as base text for punctuation (e.g., commas) */
+}
+
+/* Like button container */
+.like-container {
+  position: relative;
+}
+
+/* Like button */
+.like-button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #dfe6e9, #b0bec5);
+  color: #2c3e50;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+[data-theme='dark'] .like-button {
+  background: linear-gradient(135deg, #4b5e60, #2c3435);
+  color: #dfe6e9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.like-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.like-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #b0bec5, #dfe6e9);
+}
+
+[data-theme='dark'] .like-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2c3435, #4b5e60);
+}
+
+.heart-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.like-button:hover:not(:disabled) .heart-icon {
+  transform: scale(1.2);
+}
+
+/* Flying hearts animation */
+.flying-hearts {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.flying-heart {
+  position: absolute;
+  font-size: 1rem;
+  color: #ff4d4f;
 }
