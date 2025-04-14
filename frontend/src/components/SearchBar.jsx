@@ -15,7 +15,12 @@ const SearchBar = ({ onSearch }) => {
         <FormControl
           type="text"
           placeholder="Search SQL commands..."
-          onChange={(e) => onSearch(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            onSearch(value);
+            // Additional logic: Log the search term to console for debugging
+            console.log('Search Term Entered:', value);
+          }}
           className={theme === 'light' ? 'bg-light text-dark' : 'bg-dark text-light'}
           aria-label="Search SQL commands"
         />
