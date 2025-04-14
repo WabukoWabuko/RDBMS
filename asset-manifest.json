@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/RDBMS/static/css/main.89d7b156.css",
-    "main.js": "/RDBMS/static/js/main.d41f76af.js",
+    "main.js": "/RDBMS/static/js/main.f3324eb0.js",
     "index.html": "/RDBMS/index.html",
     "main.89d7b156.css.map": "/RDBMS/static/css/main.89d7b156.css.map",
-    "main.d41f76af.js.map": "/RDBMS/static/js/main.d41f76af.js.map"
+    "main.f3324eb0.js.map": "/RDBMS/static/js/main.f3324eb0.js.map"
   },
   "entrypoints": [
     "static/css/main.89d7b156.css",
-    "static/js/main.d41f76af.js"
+    "static/js/main.f3324eb0.js"
   ]
 }
