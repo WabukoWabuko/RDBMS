@@ -31,7 +31,7 @@ const useDebounce = (value, delay) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [starCount, setStarCount] = useState(0);
-  const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10)); // Initialize from localStorage
+  const [likes, setLikes] = useState(() => parseInt(localStorage.getItem('likes') || '0', 10));
   const [hasLiked, setHasLiked] = useState(() => localStorage.getItem('hasLiked') === 'true');
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -45,16 +45,18 @@ const App = () => {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
+        console.log('Attempting to fetch likes from /api/getLikes');
         const response = await fetch('/api/getLikes');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        console.log('Fetched Likes:', data); // Debug log
+        console.log('Fetched Likes Response:', data);
         const fetchedLikes = data.likesCount || 0;
         setLikes(fetchedLikes);
-        localStorage.setItem('likes', fetchedLikes.toString()); // Update localStorage
+        localStorage.setItem('likes', fetchedLikes.toString());
       } catch (err) {
         console.error('Failed to fetch likes:', err);
-        // Keep localStorage value if fetch fails
+        const storedLikes = parseInt(localStorage.getItem('likes') || '0', 10);
+        setLikes(storedLikes);
       }
     };
 
@@ -95,6 +97,7 @@ const App = () => {
       formData.append(entryId, 'Like');
 
       try {
+        console.log('Submitting like to Google Form');
         await fetch(formUrl, {
           method: 'POST',
           body: formData,
@@ -103,16 +106,20 @@ const App = () => {
         toast.success('Thanks for the like!', { autoClose: 2000 });
 
         // Fetch updated likes count after submitting
+        console.log('Fetching updated likes after submission');
         const response = await fetch('/api/getLikes');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        console.log('Updated Likes:', data); // Debug log
+        console.log('Updated Likes Response:', data);
         const updatedLikes = data.likesCount || 0;
         setLikes(updatedLikes);
         localStorage.setItem('likes', updatedLikes.toString());
       } catch (err) {
         console.error('Failed to log like or fetch updated likes:', err);
         toast.success('Thanks for the like! (Tracking may have failed)', { autoClose: 2000 });
+        const newLikes = likes + 1;
+        setLikes(newLikes);
+        localStorage.setItem('likes', newLikes.toString());
       }
     }
   };
@@ -209,71 +216,71 @@ const App = () => {
 
         {filteredQueries.length === 0 && (
           <Alert variant={theme === 'light' ? 'warning' : 'dark'} className="text-center">
-            No SQL commands found for "{searchTerm}". Try a different search term.
-          </Alert>
-        )}
+          No SQL commands found for "{searchTerm}". Try a different search term.
+        </Alert>
+      )}
 
-        <Row>
-          {paginatedQueries.map((query) => (
-            <Col md={6} lg={4} key={query.title} className="mb-4">
-              <QueryCard {...query} />
-            </Col>
-          ))}
-        </Row>
+      <Row>
+        {paginatedQueries.map((query) => (
+          <Col md={6} lg={4} key={query.title} className="mb-4">
+            <QueryCard {...query} />
+          </Col>
+        ))}
+      </Row>
 
-        {totalPages > 1 && (
-          <Pagination className="justify-content-center mt-4">
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {pageNumbers.map((page) => (
-              <Pagination.Item
-                key={page}
-                active={page === currentPage}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
-        )}
-
-        <footer className="mt-5 text-center">
-          <p>
-            Created by <strong>WabukoWabuko</strong> |{' '}
-            <a href="https://github.com/WabukoWabuko" target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>{' '}
-            | <a href="mailto:basilwabbs@gmail.com">basilwabbs@gmail.com</a> |{' '}
-            <a href="tel:+254740750403">+254740750403</a>
-          </p>
-          <p>
-            Star this project on{' '}
-            <a
-              href="https://github.com/WabukoWabuko/RDBMS"
-              target="_blank"
-              rel="noopener noreferrer"
+      {totalPages > 1 && (
+        <Pagination className="justify-content-center mt-4">
+          <Pagination.Prev
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {pageNumbers.map((page) => (
+            <Pagination.Item
+              key={page}
+              active={page === currentPage}
+              onClick={() => handlePageChange(page)}
             >
-              GitHub
-            </a>!
-          </p>
-        </footer>
-      </Container>
+              {page}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+      )}
 
-      <ToastContainer position="bottom-right" theme={theme} autoClose={2000} />
-      <button
-        className="back-to-top"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      >
-        ↑ Top
-      </button>
-    </div>
-  );
+      <footer className="mt-5 text-center">
+        <p>
+          Created by <strong>WabukoWabuko</strong> |{' '}
+          <a href="https://github.com/WabukoWabuko" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>{' '}
+          | <a href="mailto:basilwabbs@gmail.com">basilwabbs@gmail.com</a> |{' '}
+          <a href="tel:+254740750403">+254740750403</a>
+        </p>
+        <p>
+          Star this project on{' '}
+          <a
+            href="https://github.com/WabukoWabuko/RDBMS"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>!
+        </p>
+      </footer>
+    </Container>
+
+    <ToastContainer position="bottom-right" theme={theme} autoClose={2000} />
+    <button
+      className="back-to-top"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
+      ↑ Top
+    </button>
+  </div>
+);
 };
 
 export default App;
