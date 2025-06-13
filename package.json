@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.5",
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
